@@ -58,16 +58,16 @@ const Home = ({ onOpenContact }) => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <div className="relative min-h-screen flex items-center pt-24">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="hero-panel grid grid-cols-1 lg:grid-cols-2 items-center gap-14">
+      <div className="relative min-h-screen flex items-start lg:items-center pt-24 md:pt-28">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="hero-panel grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-14">
             {/* Left Side: Tech Text */}
-            <div className="space-y-8 flex flex-col items-center lg:items-start text-center lg:text-left">
+            <div className="space-y-6 lg:space-y-8 flex flex-col items-center lg:items-start text-center lg:text-left">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-3 px-5 py-2 rounded-lg bg-aiCyan/10 border border-aiCyan/30 text-xs text-aiCyan font-semibold tracking-[0.2em] uppercase hover:bg-aiCyan/20 hover:border-aiCyan/50 transition-all duration-300"
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-lg bg-aiCyan/10 border border-aiCyan/30 text-[11px] md:text-xs text-aiCyan font-semibold tracking-[0.15em] md:tracking-[0.2em] uppercase hover:bg-aiCyan/20 hover:border-aiCyan/50 transition-all duration-300"
               >
                 <div className="w-2 h-2 rounded-full bg-aiCyan animate-pulse" />
                 {profile?.subTitle || "Full-Stack Developer"}
@@ -80,7 +80,7 @@ const Home = ({ onOpenContact }) => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.2, duration: 0.8 }}
-                  className="text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-aiCyan to-aiBlue bg-clip-text text-transparent leading-tight"
+                  className="text-4xl sm:text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-aiCyan to-aiBlue bg-clip-text text-transparent leading-[1.05]"
                 >
                   {profile?.heroText || "Build Tomorrow's Solutions"}
                 </motion.h1>
@@ -89,7 +89,7 @@ const Home = ({ onOpenContact }) => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.5, duration: 0.8 }}
-                  className="text-slate-400 max-w-2xl text-lg leading-relaxed font-medium"
+                  className="text-slate-400 max-w-2xl text-base sm:text-lg leading-relaxed font-medium"
                 >
                   {profile?.bio ? `${profile.bio.substring(0, 180)}...` : "Crafting intelligent systems with clean code and thoughtful design."}
                 </motion.p>
@@ -99,12 +99,12 @@ const Home = ({ onOpenContact }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 2, duration: 0.5 }}
-                className="pt-6 flex flex-wrap gap-4 justify-center lg:justify-start"
+                className="pt-2 sm:pt-4 lg:pt-6 flex flex-col sm:flex-row w-full sm:w-auto gap-3 sm:gap-4 justify-center lg:justify-start"
               >
                 <motion.a
                   href="#projects"
                   whileHover={{ y: -4 }}
-                  className="inline-flex items-center justify-center px-8 py-3 font-semibold text-white bg-slate-900/60 border border-slate-700 rounded-lg hover:border-aiCyan hover:bg-slate-800 hover:shadow-glow-md transition-all duration-300 backdrop-blur-sm"
+                  className="inline-flex w-full sm:w-auto items-center justify-center px-6 sm:px-8 py-3 font-semibold text-white bg-slate-900/60 border border-slate-700 rounded-lg hover:border-aiCyan hover:bg-slate-800 hover:shadow-glow-md transition-all duration-300 backdrop-blur-sm"
                 >
                   View Work
                 </motion.a>
@@ -113,7 +113,7 @@ const Home = ({ onOpenContact }) => {
                   onClick={onOpenContact}
                   whileHover={{ y: -4, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center justify-center px-8 py-3 font-semibold text-black bg-gradient-to-r from-aiCyan to-aiBlue rounded-lg shadow-glow-md hover:shadow-glow-lg transition-all duration-300 group relative overflow-hidden"
+                  className="inline-flex w-full sm:w-auto items-center justify-center px-6 sm:px-8 py-3 font-semibold text-black bg-gradient-to-r from-aiCyan to-aiBlue rounded-lg shadow-glow-md hover:shadow-glow-lg transition-all duration-300 group relative overflow-hidden"
                 >
                   <span className="relative z-10">Get in Touch</span>
                 </motion.button>
@@ -123,7 +123,7 @@ const Home = ({ onOpenContact }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ y: -4 }}
-                  className="inline-flex items-center justify-center px-8 py-3 font-semibold text-white border border-slate-600 rounded-lg hover:border-aiCyan hover:bg-slate-900/40 transition-all duration-300 backdrop-blur-sm"
+                  className="inline-flex w-full sm:w-auto items-center justify-center px-6 sm:px-8 py-3 font-semibold text-white border border-slate-600 rounded-lg hover:border-aiCyan hover:bg-slate-900/40 transition-all duration-300 backdrop-blur-sm"
                 >
                   Resume
                 </motion.a>
@@ -135,9 +135,9 @@ const Home = ({ onOpenContact }) => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1, duration: 0.8, type: "spring" }}
-              className="relative flex justify-center lg:justify-end"
+              className="relative flex justify-center lg:justify-end mt-2 lg:mt-0"
             >
-              <div className="relative w-full max-w-[400px] overflow-hidden rounded-2xl aspect-square border border-slate-700/40 shadow-2xl">
+              <div className="relative w-full max-w-[300px] sm:max-w-[360px] lg:max-w-[400px] overflow-hidden rounded-2xl aspect-square border border-slate-700/40 shadow-2xl">
                 <img
                   src="/profile.jpg"
                   alt="Profile"

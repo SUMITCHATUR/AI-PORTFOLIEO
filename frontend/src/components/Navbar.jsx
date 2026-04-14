@@ -32,7 +32,7 @@ const Navbar = ({ onOpenContact }) => {
       transition={{ duration: 0.5 }}
       className="fixed w-full z-50 top-0 left-0"
     >
-      <div className="cyber-glass m-4 px-6 py-4 flex justify-between items-center bg-[#020617]/80 border-cyberCyan/10">
+      <div className="cyber-glass mx-3 mt-3 px-4 py-3 md:m-4 md:px-6 md:py-4 flex justify-between items-center bg-[#020617]/80 border-cyberCyan/10">
         <Link to="/" className="group flex flex-col items-center gap-1">
           <motion.div
             animate={{ y: [0, -4, 0] }}
@@ -58,7 +58,7 @@ const Navbar = ({ onOpenContact }) => {
               <circle cx="74" cy="36" r="1.5" fill="#8be7ff" opacity="0.9" />
             </svg>
           </motion.div>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-slate-300/70">TEGOLYTICS</span>
+          <span className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.25em] text-slate-300/70">TEGOLYTICS</span>
         </Link>
 
         {/* Desktop Links */}
@@ -97,7 +97,7 @@ const Navbar = ({ onOpenContact }) => {
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-aiCyan" onClick={() => setIsOpen(!isOpen)}>
+        <button className="md:hidden text-aiCyan p-1" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
@@ -107,7 +107,7 @@ const Navbar = ({ onOpenContact }) => {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute top-24 left-4 right-4 cyber-glass bg-[#020617]/95 flex flex-col items-center space-y-6 py-8 md:hidden shadow-2xl border-cyberCyan/20"
+          className="absolute top-[78px] left-3 right-3 cyber-glass bg-[#020617]/95 flex flex-col items-center space-y-5 py-6 md:hidden shadow-2xl border-cyberCyan/20 max-h-[70vh] overflow-y-auto"
         >
           {links.map((link) => (
             link.path.startsWith('/#') ? (
@@ -115,7 +115,7 @@ const Navbar = ({ onOpenContact }) => {
                 key={link.name} 
                 href={link.path.replace('/', '')}
                 onClick={() => setIsOpen(false)}
-                className="text-slate-200 text-lg hover:text-cyberCyan transition-colors font-black tracking-widest"
+                className="text-slate-200 text-base hover:text-cyberCyan transition-colors font-black tracking-[0.2em]"
               >
                 {link.name}
               </a>
@@ -124,7 +124,7 @@ const Navbar = ({ onOpenContact }) => {
                 key={link.name} 
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className="text-slate-200 text-lg hover:text-cyberCyan transition-colors font-black tracking-widest"
+                className="text-slate-200 text-base hover:text-cyberCyan transition-colors font-black tracking-[0.2em]"
               >
                 {link.name}
               </Link>

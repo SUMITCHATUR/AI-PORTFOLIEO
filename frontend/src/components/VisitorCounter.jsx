@@ -29,11 +29,11 @@ const VisitorCounter = () => {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="fixed bottom-6 right-6 z-40 px-4 py-3 bg-gradient-to-r from-aiCyan/20 to-aiBlue/20 border border-aiCyan/30 rounded-full backdrop-blur-md shadow-lg"
+      className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-40 px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-aiCyan/20 to-aiBlue/20 border border-aiCyan/30 rounded-full backdrop-blur-md shadow-lg"
     >
       <div className="flex items-center gap-3">
-        <Eye size={18} className="text-aiCyan animate-pulse" />
-        <span className="text-sm font-semibold text-white">
+        <Eye size={16} className="text-aiCyan animate-pulse" />
+        <span className="text-xs sm:text-sm font-semibold text-white">
           {displayCount.toLocaleString()} views
         </span>
       </div>
