@@ -14,6 +14,10 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
+const COUNTER_API_URL = 'https://api.countapi.xyz';
+const COUNTER_NAMESPACE = 'sumitjain-portfolio';
+const COUNTER_KEY = 'total-views';
+
 export const useAnalytics = () => {
   const [analyticsData, setAnalyticsData] = useState(null);
   const [visitors, setVisitors] = useState([]);
@@ -22,6 +26,7 @@ export const useAnalytics = () => {
 
   // Increment total views count
   const incrementViews = async () => {
+    let remoteCount = null;
     try {
       const analyticsRef = doc(db, 'analytics', 'summary');
       const now = serverTimestamp();
@@ -50,6 +55,26 @@ export const useAnalytics = () => {
       });
     } catch (err) {
       console.error('Error incrementing views:', err);
+    }
+
+    // Guaranteed public counter fallback (works even without Firebase write permissions).
+    try {
+      const response = await fetch(
+        `${COUNTER_API_URL}/hit/${COUNTER_NAMESPACE}/${COUNTER_KEY}`
+      );
+      const data = await response.json();
+      if (typeof data?.value === 'number') {
+        remoteCount = data.value;
+      }
+    } catch (err) {
+      console.error('CountAPI increment failed:', err);
+    }
+
+    if (typeof remoteCount === 'number') {
+      setAnalyticsData((prev) => ({
+        ...(prev || {}),
+        totalViews: Math.max(remoteCount, prev?.totalViews || 0)
+      }));
     }
   };
 
@@ -90,7 +115,32 @@ export const useAnalytics = () => {
         }
         setLoading(false);
       });
-      return unsubscribe;
+
+      // Also sync with CountAPI so public traffic is reflected on dashboard.
+      const syncCountApi = async () => {
+        try {
+          const response = await fetch(
+            `${COUNTER_API_URL}/get/${COUNTER_NAMESPACE}/${COUNTER_KEY}`
+          );
+          const data = await response.json();
+          if (typeof data?.value === 'number') {
+            setAnalyticsData((prev) => ({
+              ...(prev || {}),
+              totalViews: Math.max(data.value, prev?.totalViews || 0)
+            }));
+          }
+        } catch (err) {
+          console.error('CountAPI read failed:', err);
+        }
+      };
+
+      syncCountApi();
+      const pollId = window.setInterval(syncCountApi, 15000);
+
+      return () => {
+        unsubscribe?.();
+        window.clearInterval(pollId);
+      };
     } catch (err) {
       setError(err.message);
       setLoading(false);
