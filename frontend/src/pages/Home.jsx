@@ -144,6 +144,7 @@ const Home = ({ onOpenContact }) => {
             >
               <AIImage 
                 src={profilePhoto} 
+                fallbackSrc={defaultProfilePhoto}
                 alt="Profile" 
                 className="w-full max-w-[400px]"
               />
