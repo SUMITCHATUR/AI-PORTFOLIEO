@@ -4,15 +4,12 @@ import Projects from '../components/Projects';
 import About from '../components/About';
 import Certificates from '../components/Certificates';
 import Achievements from '../components/Achievements';
-import AIImage from '../components/AIImage';
 import Notes from '../components/Notes';
 import Contact from '../components/Contact';
 import Feed from '../components/Feed';
 
 import { db } from '../firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
-
-import defaultProfilePhoto from '../../profile.jpg';
 
 const TypewriterText = ({ text, delay = 0 }) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -43,7 +40,6 @@ const TypewriterText = ({ text, delay = 0 }) => {
 
 const Home = ({ onOpenContact }) => {
   const [profile, setProfile] = useState(null);
-  const profilePhoto = defaultProfilePhoto;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -141,12 +137,14 @@ const Home = ({ onOpenContact }) => {
               transition={{ delay: 1, duration: 0.8, type: "spring" }}
               className="relative flex justify-center lg:justify-end"
             >
-              <AIImage 
-                src={profilePhoto} 
-                fallbackSrc={defaultProfilePhoto}
-                alt="Profile" 
-                className="w-full max-w-[400px]"
-              />
+              <div className="relative w-full max-w-[400px] overflow-hidden rounded-2xl aspect-square border border-slate-700/40 shadow-2xl">
+                <img
+                  src="/profile.jpg"
+                  alt="Profile"
+                  className="w-full h-full object-cover transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
+              </div>
             </motion.div>
           </div>
         </div>
