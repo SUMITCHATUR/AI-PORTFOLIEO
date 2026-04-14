@@ -43,8 +43,7 @@ const TypewriterText = ({ text, delay = 0 }) => {
 
 const Home = ({ onOpenContact }) => {
   const [profile, setProfile] = useState(null);
-  const profilePhoto =
-    !profile?.photo || profile.photo === '/profile.jpg' ? defaultProfilePhoto : profile.photo;
+  const profilePhoto = defaultProfilePhoto;
 
   useEffect(() => {
     const fetchProfile = async () => {
