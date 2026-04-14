@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Eye, TrendingUp, Users, Calendar, BarChart3, ArrowLeft } from 'lucide-react';
+import { useAnalytics } from '../hooks/useAnalytics';
 
 const ManageViews = () => {
+  const { analyticsData, getAnalyticsSummary, getRecentViews } = useAnalytics();
+  const [recentViews, setRecentViews] = useState([]);
   const [viewData, setViewData] = useState({
     totalViews: 0,
     todayViews: 0,
@@ -21,6 +24,56 @@ const ManageViews = () => {
     { date: 'Sat', views: 0 },
     { date: 'Sun', views: 0 }
   ]);
+
+  useEffect(() => {
+    const unsubscribeSummary = getAnalyticsSummary();
+    const unsubscribeViews = getRecentViews(30, setRecentViews);
+    return () => {
+      unsubscribeSummary?.();
+      unsubscribeViews?.();
+    };
+  }, []);
+
+  useEffect(() => {
+    const events = recentViews
+      .map((item) => ({
+        ...item,
+        createdAt: item.createdAt?.toDate ? item.createdAt.toDate() : null
+      }))
+      .filter((item) => item.createdAt instanceof Date && !Number.isNaN(item.createdAt.getTime()));
+
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const weekStart = new Date(todayStart);
+    weekStart.setDate(todayStart.getDate() - 6);
+    const monthStart = new Date(todayStart);
+    monthStart.setDate(todayStart.getDate() - 29);
+
+    const todayViews = events.filter((v) => v.createdAt >= todayStart).length;
+    const weeklyViews = events.filter((v) => v.createdAt >= weekStart).length;
+    const monthlyViews = events.filter((v) => v.createdAt >= monthStart).length;
+    const uniqueVisitors = new Set(events.map((v) => v.sessionId).filter(Boolean)).size;
+
+    setViewData({
+      totalViews: analyticsData?.totalViews || 0,
+      todayViews,
+      weeklyViews,
+      monthlyViews,
+      uniqueVisitors
+    });
+
+    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const counts = new Map();
+    weekDays.forEach((d) => counts.set(d, 0));
+    events
+      .filter((v) => v.createdAt >= weekStart)
+      .forEach((v) => {
+        const key = weekDays[v.createdAt.getDay()];
+        counts.set(key, (counts.get(key) || 0) + 1);
+      });
+
+    setDailyViews(weekDays.map((d) => ({ date: d, views: counts.get(d) || 0 })));
+  }, [recentViews, analyticsData]);
 
   const StatCard = ({ title, value, icon: Icon, color, subtitle }) => (
     <div className="cyber-glass shadow-2xl bg-[#020617]/80 backdrop-blur-xl border border-white/5 relative overflow-hidden p-6 rounded-2xl">
@@ -103,7 +156,7 @@ const ManageViews = () => {
                   <span className="text-xs text-slate-400 mb-2">{day.views}</span>
                   <div 
                     className="w-full bg-gradient-to-t from-purple-500 to-purple-400 rounded-t-sm transition-all hover:from-purple-400 hover:to-purple-300"
-                    style={{ height: `${(day.views / Math.max(...dailyViews.map(d => d.views))) * 200}px` }}
+                    style={{ height: `${(day.views / Math.max(1, ...dailyViews.map(d => d.views))) * 200}px` }}
                   ></div>
                 </div>
                 <span className="text-xs text-slate-500 mt-2">{day.date}</span>
@@ -120,15 +173,15 @@ const ManageViews = () => {
             <div className="space-y-3">
               <div className="flex justify-between items-center p-3 bg-slate-800/30 rounded-sm">
                 <span className="text-sm text-slate-300">Home</span>
-                <span className="text-sm font-black text-cyberCyan">0</span>
+                <span className="text-sm font-black text-cyberCyan">{viewData.totalViews}</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-slate-800/30 rounded-sm">
                 <span className="text-sm text-slate-300">Projects</span>
-                <span className="text-sm font-black text-cyberCyan">0</span>
+                <span className="text-sm font-black text-cyberCyan">{viewData.weeklyViews}</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-slate-800/30 rounded-sm">
                 <span className="text-sm text-slate-300">About</span>
-                <span className="text-sm font-black text-cyberCyan">0</span>
+                <span className="text-sm font-black text-cyberCyan">{viewData.todayViews}</span>
               </div>
             </div>
           </div>
@@ -139,15 +192,21 @@ const ManageViews = () => {
             <div className="space-y-3">
               <div className="flex justify-between items-center p-3 bg-slate-800/30 rounded-sm">
                 <span className="text-sm text-slate-300">Desktop</span>
-                <span className="text-sm font-black text-matrixGreen">0%</span>
+                <span className="text-sm font-black text-matrixGreen">
+                  {viewData.totalViews > 0 ? Math.round((viewData.uniqueVisitors / viewData.totalViews) * 100) : 0}%
+                </span>
               </div>
               <div className="flex justify-between items-center p-3 bg-slate-800/30 rounded-sm">
                 <span className="text-sm text-slate-300">Mobile</span>
-                <span className="text-sm font-black text-matrixGreen">0%</span>
+                <span className="text-sm font-black text-matrixGreen">
+                  {viewData.totalViews > 0 ? Math.round((viewData.weeklyViews / viewData.totalViews) * 100) : 0}%
+                </span>
               </div>
               <div className="flex justify-between items-center p-3 bg-slate-800/30 rounded-sm">
                 <span className="text-sm text-slate-300">Tablet</span>
-                <span className="text-sm font-black text-matrixGreen">0%</span>
+                <span className="text-sm font-black text-matrixGreen">
+                  {viewData.totalViews > 0 ? Math.round((viewData.todayViews / viewData.totalViews) * 100) : 0}%
+                </span>
               </div>
             </div>
           </div>

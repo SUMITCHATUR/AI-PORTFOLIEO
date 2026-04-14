@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { 
   doc, 
-  updateDoc, 
-  getDoc, 
+  setDoc,
+  increment,
+  serverTimestamp,
   collection, 
   addDoc, 
   query, 
-  where, 
+  where,
   orderBy, 
   onSnapshot,
-  getDocs 
+  limit
 } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
@@ -23,29 +24,30 @@ export const useAnalytics = () => {
   const incrementViews = async () => {
     try {
       const analyticsRef = doc(db, 'analytics', 'summary');
-      const analyticsDoc = await getDoc(analyticsRef);
-      
-      if (analyticsDoc.exists()) {
-        await updateDoc(analyticsRef, {
-          totalViews: (analyticsDoc.data().totalViews || 0) + 1,
-          lastUpdated: new Date()
-        });
-      } else {
-        // First time - create the document
-        await updateDoc(analyticsRef, {
-          totalViews: 1,
-          totalVisitors: 0,
-          lastUpdated: new Date()
-        }).catch(() => {
-          // If update fails, it means doc doesn't exist
-          addDoc(collection(db, 'analytics'), {
-            id: 'summary',
-            totalViews: 1,
-            totalVisitors: 0,
-            lastUpdated: new Date()
-          });
-        });
+      const now = serverTimestamp();
+      const sessionKey = 'portfolio-analytics-session-id';
+      let sessionId = sessionStorage.getItem(sessionKey);
+      if (!sessionId) {
+        sessionId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        sessionStorage.setItem(sessionKey, sessionId);
       }
+
+      // Atomic upsert so first write and all future writes work reliably.
+      await setDoc(analyticsRef, {
+        totalViews: increment(1),
+        totalVisitors: increment(0),
+        lastUpdated: now
+      }, { merge: true });
+
+      // Keep event-level logs for charting and time-based analytics.
+      await addDoc(collection(db, 'pageViews'), {
+        sessionId,
+        path: window.location.pathname || '/',
+        userAgent: navigator.userAgent || '',
+        createdAt: now
+      });
     } catch (err) {
       console.error('Error incrementing views:', err);
     }
@@ -61,30 +63,30 @@ export const useAnalytics = () => {
         email: userData.email,
         displayName: userData.displayName,
         photoURL: userData.photoURL,
-        visitTime: new Date(),
+        visitTime: serverTimestamp(),
         uid: userData.uid
       });
 
-      // Also increment total visitors count
+      // Increment unique/auth visitors metric.
       const analyticsRef = doc(db, 'analytics', 'summary');
-      const analyticsDoc = await getDoc(analyticsRef);
-      if (analyticsDoc.exists()) {
-        await updateDoc(analyticsRef, {
-          totalVisitors: (analyticsDoc.data().totalVisitors || 0) + 1
-        });
-      }
+      await setDoc(analyticsRef, {
+        totalVisitors: increment(1),
+        lastUpdated: serverTimestamp()
+      }, { merge: true });
     } catch (err) {
       console.error('Error tracking user visit:', err);
     }
   };
 
   // Get analytics summary
-  const getAnalyticsSummary = (callback) => {
+  const getAnalyticsSummary = () => {
     try {
       const analyticsRef = doc(db, 'analytics', 'summary');
-      const unsubscribe = onSnapshot(analyticsRef, (doc) => {
-        if (doc.exists()) {
-          setAnalyticsData(doc.data());
+      const unsubscribe = onSnapshot(analyticsRef, (snapshot) => {
+        if (snapshot.exists()) {
+          setAnalyticsData(snapshot.data());
+        } else {
+          setAnalyticsData({ totalViews: 0, totalVisitors: 0 });
         }
         setLoading(false);
       });
@@ -116,6 +118,33 @@ export const useAnalytics = () => {
     }
   };
 
+  // Get recent page view events for analytics charts.
+  const getRecentViews = (days = 30, callback) => {
+    try {
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - days);
+
+      const q = query(
+        collection(db, 'pageViews'),
+        where('createdAt', '>=', cutoff),
+        orderBy('createdAt', 'desc'),
+        limit(2000)
+      );
+
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const views = snapshot.docs.map((d) => ({
+          id: d.id,
+          ...d.data()
+        }));
+        callback?.(views);
+      });
+      return unsubscribe;
+    } catch (err) {
+      setError(err.message);
+      return undefined;
+    }
+  };
+
   // Format relative time
   const formatRelativeTime = (timestamp) => {
     if (!timestamp?.toDate) return 'Just now';
@@ -139,6 +168,7 @@ export const useAnalytics = () => {
     trackUserVisit,
     getAnalyticsSummary,
     getAllVisitors,
+    getRecentViews,
     formatRelativeTime
   };
 };
