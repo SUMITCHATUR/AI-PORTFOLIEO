@@ -12,9 +12,7 @@ import Feed from '../components/Feed';
 import { db } from '../firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 
-const defaultProfilePhoto = new URL('../../profile.jpg', import.meta.url).href;
-const guaranteedProfilePhoto =
-  'https://raw.githubusercontent.com/SUMITCHATUR/AI-PORTFOLIEO/main/frontend/profile.jpg';
+import defaultProfilePhoto from '../../profile.jpg';
 
 const TypewriterText = ({ text, delay = 0 }) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -45,7 +43,7 @@ const TypewriterText = ({ text, delay = 0 }) => {
 
 const Home = ({ onOpenContact }) => {
   const [profile, setProfile] = useState(null);
-  const profilePhoto = guaranteedProfilePhoto || defaultProfilePhoto;
+  const profilePhoto = defaultProfilePhoto;
 
   useEffect(() => {
     const fetchProfile = async () => {
