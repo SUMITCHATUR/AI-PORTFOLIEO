@@ -5,12 +5,14 @@ import { User, Code, Save, Plus, Trash2, CheckCircle } from 'lucide-react';
 import { db } from '../firebase/config';
 import { doc, getDoc, setDoc, collection, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
 
+const defaultProfilePhoto = new URL('../../profile.jpg', import.meta.url).href;
+
 const ManageProfile = () => {
   const [bio, setBio] = useState('');
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
   const [heroText, setHeroText] = useState('');
-  const [photo, setPhoto] = useState('/profile.jpg');
+  const [photo, setPhoto] = useState(defaultProfilePhoto);
   const [email, setEmail] = useState('sumitchatur9@gmail.com');
   const [whatsapp, setWhatsapp] = useState('9822461130');
   const [linkedin, setLinkedin] = useState('https://linkedin.com/in/sumit-jain-1786a3326');
@@ -37,7 +39,7 @@ const ManageProfile = () => {
         setTitle(data.title || '');
         setSubTitle(data.subTitle || '');
         setHeroText(data.heroText || '');
-        setPhoto(data.photo || '/profile.jpg');
+        setPhoto(!data.photo || data.photo === '/profile.jpg' ? defaultProfilePhoto : data.photo);
         setEmail(data.email || 'sumitchatur9@gmail.com');
         setWhatsapp(data.whatsapp || '9822461130');
         setLinkedin(data.linkedin || 'https://linkedin.com/in/sumit-jain-1786a3326');

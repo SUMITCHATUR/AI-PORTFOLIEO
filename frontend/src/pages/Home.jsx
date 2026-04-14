@@ -12,6 +12,8 @@ import Feed from '../components/Feed';
 import { db } from '../firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 
+const defaultProfilePhoto = new URL('../../profile.jpg', import.meta.url).href;
+
 const TypewriterText = ({ text, delay = 0 }) => {
   const [displayedText, setDisplayedText] = useState('');
 
@@ -41,6 +43,8 @@ const TypewriterText = ({ text, delay = 0 }) => {
 
 const Home = ({ onOpenContact }) => {
   const [profile, setProfile] = useState(null);
+  const profilePhoto =
+    !profile?.photo || profile.photo === '/profile.jpg' ? defaultProfilePhoto : profile.photo;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -139,7 +143,7 @@ const Home = ({ onOpenContact }) => {
               className="relative flex justify-center lg:justify-end"
             >
               <AIImage 
-                src={profile?.photo || "/profile.jpg"} 
+                src={profilePhoto} 
                 alt="Profile" 
                 className="w-full max-w-[400px]"
               />
