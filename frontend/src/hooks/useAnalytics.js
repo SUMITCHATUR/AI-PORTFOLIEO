@@ -10,7 +10,8 @@ import {
   where,
   orderBy, 
   onSnapshot,
-  limit
+  limit,
+  getDocs
 } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
@@ -30,29 +31,50 @@ export const useAnalytics = () => {
     try {
       const analyticsRef = doc(db, 'analytics', 'summary');
       const now = serverTimestamp();
-      const sessionKey = 'portfolio-analytics-session-id';
-      let sessionId = sessionStorage.getItem(sessionKey);
-      if (!sessionId) {
-        sessionId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      
+      // Create unique device identifier based on browser fingerprint
+      const deviceKey = 'portfolio-device-visited';
+      let deviceFingerprint = localStorage.getItem(deviceKey);
+      
+      if (!deviceFingerprint) {
+        // Generate unique fingerprint for this device
+        deviceFingerprint = (typeof crypto !== 'undefined' && crypto.randomUUID)
           ? crypto.randomUUID()
-          : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        sessionStorage.setItem(sessionKey, sessionId);
+          : `${Date.now()}-${Math.random().toString(36).slice(2)}-${navigator.userAgent.slice(0, 50)}`;
+        localStorage.setItem(deviceKey, deviceFingerprint);
+        
+        // First time visit from this device - increment both views and visitors
+        await setDoc(analyticsRef, {
+          totalViews: increment(1),
+          totalVisitors: increment(1),
+          lastUpdated: now
+        }, { merge: true });
+        
+        // Log the unique visit
+        await addDoc(collection(db, 'pageViews'), {
+          deviceFingerprint,
+          path: window.location.pathname || '/',
+          userAgent: navigator.userAgent || '',
+          isNewVisitor: true,
+          createdAt: now
+        });
+      } else {
+        // Returning visitor - only increment views, not visitors
+        await setDoc(analyticsRef, {
+          totalViews: increment(1),
+          totalVisitors: increment(0),
+          lastUpdated: now
+        }, { merge: true });
+        
+        // Log the returning visit
+        await addDoc(collection(db, 'pageViews'), {
+          deviceFingerprint,
+          path: window.location.pathname || '/',
+          userAgent: navigator.userAgent || '',
+          isNewVisitor: false,
+          createdAt: now
+        });
       }
-
-      // Atomic upsert so first write and all future writes work reliably.
-      await setDoc(analyticsRef, {
-        totalViews: increment(1),
-        totalVisitors: increment(0),
-        lastUpdated: now
-      }, { merge: true });
-
-      // Keep event-level logs for charting and time-based analytics.
-      await addDoc(collection(db, 'pageViews'), {
-        sessionId,
-        path: window.location.pathname || '/',
-        userAgent: navigator.userAgent || '',
-        createdAt: now
-      });
     } catch (err) {
       console.error('Error incrementing views:', err);
     }
@@ -103,15 +125,35 @@ export const useAnalytics = () => {
     }
   };
 
+  // Get unique visitor count from pageViews collection
+  const getUniqueVisitorCount = async () => {
+    try {
+      const viewsRef = collection(db, 'pageViews');
+      const q = query(viewsRef, where('isNewVisitor', '==', true));
+      const snapshot = await getDocs(q);
+      return snapshot.size;
+    } catch (err) {
+      console.error('Error getting unique visitor count:', err);
+      return 0;
+    }
+  };
+
   // Get analytics summary
   const getAnalyticsSummary = () => {
     try {
       const analyticsRef = doc(db, 'analytics', 'summary');
       const unsubscribe = onSnapshot(analyticsRef, (snapshot) => {
         if (snapshot.exists()) {
-          setAnalyticsData(snapshot.data());
+          const data = snapshot.data();
+          // Also get unique visitor count for more accuracy
+          getUniqueVisitorCount().then(uniqueCount => {
+            setAnalyticsData({
+              ...data,
+              uniqueVisitors: uniqueCount || data.totalVisitors || 0
+            });
+          });
         } else {
-          setAnalyticsData({ totalViews: 0, totalVisitors: 0 });
+          setAnalyticsData({ totalViews: 0, totalVisitors: 0, uniqueVisitors: 0 });
         }
         setLoading(false);
       });
