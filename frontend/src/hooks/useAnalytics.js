@@ -42,13 +42,23 @@ export const useAnalytics = () => {
           ? crypto.randomUUID()
           : `${Date.now()}-${Math.random().toString(36).slice(2)}-${navigator.userAgent.slice(0, 50)}`;
         localStorage.setItem(deviceKey, deviceFingerprint);
-        
-        // First time visit from this device - increment both views and visitors
+      }
+      
+      // Check if this device has already visited today
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      const dailyVisitKey = `portfolio-daily-visit-${deviceFingerprint}-${today}`;
+      const hasVisitedToday = localStorage.getItem(dailyVisitKey);
+      
+      if (!hasVisitedToday) {
+        // First visit today from this device - increment views
         await setDoc(analyticsRef, {
           totalViews: increment(1),
           totalVisitors: increment(1),
           lastUpdated: now
         }, { merge: true });
+        
+        // Mark this device as visited today
+        localStorage.setItem(dailyVisitKey, 'true');
         
         // Log the unique visit
         await addDoc(collection(db, 'pageViews'), {
@@ -56,22 +66,17 @@ export const useAnalytics = () => {
           path: window.location.pathname || '/',
           userAgent: navigator.userAgent || '',
           isNewVisitor: true,
+          visitDate: today,
           createdAt: now
         });
       } else {
-        // Returning visitor - only increment views, not visitors
-        await setDoc(analyticsRef, {
-          totalViews: increment(1),
-          totalVisitors: increment(0),
-          lastUpdated: now
-        }, { merge: true });
-        
-        // Log the returning visit
+        // Already visited today - don't increment views, just log the activity
         await addDoc(collection(db, 'pageViews'), {
           deviceFingerprint,
           path: window.location.pathname || '/',
           userAgent: navigator.userAgent || '',
           isNewVisitor: false,
+          visitDate: today,
           createdAt: now
         });
       }
@@ -125,6 +130,20 @@ export const useAnalytics = () => {
     }
   };
 
+  // Get today's views count
+  const getTodayViewsCount = async () => {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const viewsRef = collection(db, 'pageViews');
+      const q = query(viewsRef, where('visitDate', '==', today), where('isNewVisitor', '==', true));
+      const snapshot = await getDocs(q);
+      return snapshot.size;
+    } catch (err) {
+      console.error('Error getting today views count:', err);
+      return 0;
+    }
+  };
+
   // Get unique visitor count from pageViews collection
   const getUniqueVisitorCount = async () => {
     try {
@@ -145,15 +164,19 @@ export const useAnalytics = () => {
       const unsubscribe = onSnapshot(analyticsRef, (snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.data();
-          // Also get unique visitor count for more accuracy
-          getUniqueVisitorCount().then(uniqueCount => {
+          // Get both unique visitor count and today's views
+          Promise.all([
+            getUniqueVisitorCount(),
+            getTodayViewsCount()
+          ]).then(([uniqueCount, todayCount]) => {
             setAnalyticsData({
               ...data,
-              uniqueVisitors: uniqueCount || data.totalVisitors || 0
+              uniqueVisitors: uniqueCount || data.totalVisitors || 0,
+              todayViews: todayCount || 0
             });
           });
         } else {
-          setAnalyticsData({ totalViews: 0, totalVisitors: 0, uniqueVisitors: 0 });
+          setAnalyticsData({ totalViews: 0, totalVisitors: 0, uniqueVisitors: 0, todayViews: 0 });
         }
         setLoading(false);
       });
@@ -261,6 +284,7 @@ export const useAnalytics = () => {
     getAnalyticsSummary,
     getAllVisitors,
     getRecentViews,
+    getTodayViewsCount,
     formatRelativeTime
   };
 };
