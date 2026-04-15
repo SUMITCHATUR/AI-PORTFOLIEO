@@ -27,7 +27,7 @@ const PostCard = ({ post, canDelete, onDelete }) => {
 
       {post.imageUrl && (
         <div className="mt-3 overflow-hidden rounded-2xl border border-white/10 bg-[#020617]/80">
-          <img src={post.imageUrl} alt="post" className="h-32 w-full object-cover" />
+          <img src={post.imageUrl} alt="post" className="w-full h-auto max-h-96 object-contain" />
         </div>
       )}
     </article>
