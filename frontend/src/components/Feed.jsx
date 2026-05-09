@@ -39,25 +39,24 @@ const Feed = () => {
   };
 
   return (
-    <section className="container mx-auto px-6 py-12">
-      <div className="mb-10 flex flex-col gap-3 text-center">
-        <p className="text-xs uppercase tracking-[0.3em] text-aiCyan/70">Developer Feed</p>
-        <h2 className="text-3xl font-black text-white sm:text-4xl">Share progress, wins, and updates</h2>
-        <p className="mx-auto max-w-2xl text-sm text-slate-400">A modern, dark social feed for your portfolio that keeps your audience informed with polished cards and smooth motion.</p>
-      </div>
+    <section className="py-20 px-6">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold mb-12 text-center">
+          Updates
+          <div className="h-1 bg-white w-20 mx-auto mt-4"></div>
+        </h2>
 
-      <div className="mt-10">
-        {loading && <p className="text-sm text-slate-500">Loading posts...</p>}
-        {error && <p className="text-sm text-rose-400">{error}</p>}
-        {!loading && posts.length === 0 && (
-          <div className="cyber-glass rounded-3xl border border-white/10 bg-[#020617]/80 p-8 text-center text-slate-400">
-            No posts yet. Create the first update to show progress on your portfolio.
-          </div>
-        )}
+        <div className="space-y-8">
+          {loading && <p className="text-sm text-gray-400 text-center">Loading posts...</p>}
+          {error && <p className="text-sm text-red-400 text-center">{error}</p>}
+          {!loading && posts.length === 0 && (
+            <div className="bg-gray-900 rounded-lg p-8 text-center text-gray-400 border border-gray-800">
+              No posts yet. Create the first update to show progress on your portfolio.
+            </div>
+          )}
 
-        <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory">
           {posts.map((post) => (
-            <div key={post.id} className="flex-shrink-0 w-[350px] snap-center">
+            <div key={post.id} className="bg-gray-900 rounded-lg p-6 border border-gray-800 hover:border-gray-600 transition-colors">
               <PostCard
                 post={post}
                 canDelete={isAdmin}
