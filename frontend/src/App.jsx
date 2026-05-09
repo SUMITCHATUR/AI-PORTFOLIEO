@@ -44,23 +44,16 @@ function AppContent() {
   };
 
   return (
-    <div className="relative min-h-screen text-white w-full overflow-hidden bg-deepSpace">
+    <div className="min-h-screen bg-black text-white">
       <AnimatePresence>
         {loading && <AILoader onComplete={handleLoadingComplete} />}
       </AnimatePresence>
 
-      <CustomCursor />
-      
-      {/* Animated Modern Background */}
-      <AnimatedBackground />
-      
-      {/* Content layer */}
-      <div className="relative z-10 w-full h-full">
-        <Navbar onOpenContact={() => setIsContactOpen(true)} />
-        <VisitorCounter />
-        <Routes>
-          <Route path="/" element={<Home onOpenContact={() => setIsContactOpen(true)} />} />
-          <Route path="/login" element={<Login />} />
+      <Navbar onOpenContact={() => setIsContactOpen(true)} />
+      <VisitorCounter />
+      <Routes>
+        <Route path="/" element={<Home onOpenContact={() => setIsContactOpen(true)} />} />
+        <Route path="/login" element={<Login />} />
         <Route 
           path="/dashboard" 
           element={
@@ -110,13 +103,12 @@ function AppContent() {
           } 
           />
         <Route path="*" element={<Home onOpenContact={() => setIsContactOpen(true)} />} />
-        </Routes>
-        
-        <ContactModal 
-          isOpen={isContactOpen} 
-          onClose={() => setIsContactOpen(false)} 
-        />
-      </div>
+      </Routes>
+      
+      <ContactModal 
+        isOpen={isContactOpen} 
+        onClose={() => setIsContactOpen(false)} 
+      />
     </div>
   );
 }
