@@ -131,28 +131,28 @@ const Home = ({ onOpenContact }) => {
       {/* Technical Archetype Section */}
       <section className="py-20 px-6 bg-gray-950">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <div className="text-sm tracking-widest text-gray-400 mb-4">TECHNICAL ARCHETYPE</div>
-            <h2 className="text-4xl lg:text-6xl font-bold text-white leading-tight">
+            <h2 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
               The<br />Architect
             </h2>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Systems Architecture Card */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="bg-gray-900 rounded-lg border border-gray-800 p-8"
+              className="text-center"
             >
               <div className="mb-8">
-                <div className="text-2xl font-bold text-white mb-2">01</div>
-                <h3 className="text-xl font-bold text-white mb-4">Systems Architecture</h3>
+                <div className="text-3xl font-bold text-white mb-4">01</div>
+                <h3 className="text-2xl font-bold text-white mb-6">Systems Architecture</h3>
               </div>
-              <p className="text-gray-400 mb-8 leading-relaxed">
+              <p className="text-gray-400 mb-8 leading-relaxed text-lg">
                 Designing robust backends and cloud-native solutions that scale without compromise.
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <span className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded">ARCHITECTOS</span>
                 <span className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded">AWS</span>
                 <span className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded">GCP</span>
@@ -164,16 +164,16 @@ const Home = ({ onOpenContact }) => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-gray-900 rounded-lg border border-gray-800 p-8"
+              className="text-center"
             >
               <div className="mb-8">
-                <div className="text-2xl font-bold text-white mb-2">02</div>
-                <h3 className="text-xl font-bold text-white mb-4">Interface Engineering</h3>
+                <div className="text-3xl font-bold text-white mb-4">02</div>
+                <h3 className="text-2xl font-bold text-white mb-6">Interface Engineering</h3>
               </div>
-              <p className="text-gray-400 mb-8 leading-relaxed">
+              <p className="text-gray-400 mb-8 leading-relaxed text-lg">
                 Crafting immersive front-end experiences with pixel-perfect precision and motion logic.
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <span className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded">BLAST (WEBGL)</span>
                 <span className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded">TYPESCRIPT</span>
                 <span className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded">FRAMER</span>
@@ -185,16 +185,16 @@ const Home = ({ onOpenContact }) => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-gray-900 rounded-lg border border-gray-800 p-8"
+              className="text-center"
             >
               <div className="mb-8">
-                <div className="text-2xl font-bold text-white mb-2">03</div>
-                <h3 className="text-xl font-bold text-white mb-4">Machine Learning</h3>
+                <div className="text-3xl font-bold text-white mb-4">03</div>
+                <h3 className="text-2xl font-bold text-white mb-6">Machine Learning</h3>
               </div>
-              <p className="text-gray-400 mb-8 leading-relaxed">
+              <p className="text-gray-400 mb-8 leading-relaxed text-lg">
                 Integrating advanced AI models into functional product workflows for smarter UX.
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <span className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded">PYTHON</span>
                 <span className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded">OPENAI</span>
                 <span className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded">LANGCHAIN</span>
