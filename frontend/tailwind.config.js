@@ -7,7 +7,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        // AI / Modern Palette
+        // Luxury Dark Palette - Inspired by reference
+        primary: '#0a0a0a',
+        secondary: '#1a1a1a',
+        accent: '#8b5cf6',
+        accentLight: '#a78bfa',
+        accentDark: '#6d28d9',
+        textPrimary: '#ffffff',
+        textSecondary: '#a1a1aa',
+        textMuted: '#71717a',
+        cardBg: '#171717',
+        cardBorder: '#27272a',
+        glassBg: 'rgba(23, 23, 23, 0.8)',
+        glassBorder: 'rgba(139, 92, 246, 0.2)',
+        // Existing colors for compatibility
         aiBlue: '#0080ff',
         aiCyan: '#00d4ff',
         aiGold: '#ffd700',
@@ -18,20 +31,23 @@ export default {
         jarvisCyan: '#00d4ff',
         starkGold: '#ffd700',
         holographicBlue: '#001a33',
-        deepSpace: '#000814',
+        deepSpace: '#0a0a0a',
         neonCyan: '#00ffff',
         electricBlue: '#0099ff',
-        glassBg: 'rgba(0, 26, 51, 0.75)',
-        glassBorder: 'rgba(0, 212, 255, 0.2)',
-        darkBg: '#000814',
+        darkBg: '#0a0a0a',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        // Luxury Typography - Serif for headings, Sans for body
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        serif: ['Playfair Display', 'Georgia', 'serif'],
+        display: ['Playfair Display', 'Georgia', 'serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Courier New', 'monospace'],
+        // Existing fonts for compatibility
         marvel: ['Orbitron', 'sans-serif'],
         stark: ['Rajdhani', 'sans-serif'],
         sci: ['Exo 2', 'sans-serif'],
         scifi: ['Exo 2', 'sans-serif'],
-        mono: ['Courier New', 'monospace'],
       },
       animation: {
         'glow': 'glow 3s ease-in-out infinite alternate',
@@ -105,11 +121,18 @@ export default {
         '2xl': '20px',
       },
       boxShadow: {
-        'glow-sm': '0 0 10px rgba(0, 212, 255, 0.3)',
-        'glow-md': '0 0 20px rgba(0, 212, 255, 0.4)',
-        'glow-lg': '0 0 30px rgba(0, 212, 255, 0.5)',
+        // Premium cinematic shadows
+        'glow-sm': '0 0 10px rgba(139, 92, 246, 0.2)',
+        'glow-md': '0 0 20px rgba(139, 92, 246, 0.3)',
+        'glow-lg': '0 0 30px rgba(139, 92, 246, 0.4)',
+        'glow-accent': '0 0 25px rgba(139, 92, 246, 0.5)',
+        'inner-glow': 'inset 0 0 30px rgba(139, 92, 246, 0.1)',
+        'card': '0 10px 40px rgba(0, 0, 0, 0.3)',
+        'card-hover': '0 20px 60px rgba(139, 92, 246, 0.15)',
+        'premium': '0 25px 50px rgba(0, 0, 0, 0.4), 0 0 100px rgba(139, 92, 246, 0.1)',
+        'cinematic': '0 30px 80px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(139, 92, 246, 0.05)',
+        // Existing shadows for compatibility
         'glow-blue': '0 0 20px rgba(0, 128, 255, 0.3)',
-        'inner-glow': 'inset 0 0 30px rgba(0, 212, 255, 0.1)',
       },
     },
   },

@@ -3,21 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const AILoader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState('INITIALIZING A.I. MATRIX...');
+  const [status, setStatus] = useState('INITIALIZING SYSTEM...');
   const [isStarted, setIsStarted] = useState(false);
   const [logs, setLogs] = useState([]);
 
-  const techLogs = [
-    'CONNECTING TO CORE_NETWORK...',
-    'ENCRYPTING SECURE CHANNEL...',
-    'SCANNING IDENTITY PROTOCOLS...',
-    'ACTIVATING SYNTHETIC LAYER...',
-    'LOADING A.I. ENGINE...',
-    'VERIFYING SYSTEM INTEGRITY...',
-    'STREAMING DATA FEED...',
-    'ESTABLISHING NEURAL LINK...',
-    'SYNCHRONIZING PROCESSOR CLUSTER...',
-    'ACCESSING CORE DATABASE...'
+  const luxuryLogs = [
+    'ESTABLISHING SECURE CONNECTION...',
+    'LOADING PREMIUM ASSETS...',
+    'INITIALIZING CINEMATIC ENGINE...',
+    'CALIBRATING LUXURY INTERFACE...',
+    'ACTIVATING DYNAMIC LIGHTING...',
+    'SYNCHRONIZING VISUAL EFFECTS...',
+    'OPTIMIZING USER EXPERIENCE...',
+    'FINALIZING PREMIUM ENVIRONMENT...',
+    'PREPARING IMMERSIVE INTERFACE...',
+    'SYSTEM READY FOR LAUNCH...'
   ];
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const AILoader = ({ onComplete }) => {
 
     const logInterval = setInterval(() => {
       setLogs(prev => {
-        const next = [...prev, techLogs[Math.floor(Math.random() * techLogs.length)]];
+        const next = [...prev, luxuryLogs[Math.floor(Math.random() * luxuryLogs.length)]];
         return next.slice(-8);
       });
     }, 400);
@@ -43,11 +43,11 @@ const AILoader = ({ onComplete }) => {
     }, 30);
 
     const statusList = [
-      'INITIALIZING A.I. PROTOCOLS...',
-      'LOCALIZING CORE_SENSORS...',
-      'ENCRYPTING DATA STREAMS...',
-      'OPTIMIZING SYNTHESIS...',
-      'A.I. NETWORK ONLINE.'
+      'INITIALIZING PREMIUM INTERFACE...',
+      'LOADING CINEMATIC ELEMENTS...',
+      'ACTIVATING LUXURY FEATURES...',
+      'OPTIMIZING VISUAL EXPERIENCE...',
+      'SYSTEM FULLY OPERATIONAL.'
     ];
     
     let statusIdx = 0;
@@ -71,12 +71,14 @@ const AILoader = ({ onComplete }) => {
   return (
     <motion.div 
       exit={{ opacity: 0, scale: 1.1 }}
-      className="fixed inset-0 z-[9999] bg-deepSpace flex flex-col items-center justify-center overflow-hidden font-sci"
+      className="fixed inset-0 z-[9999] bg-primary flex flex-col items-center justify-center overflow-hidden font-body"
     >
-      {/* Background Tech Layer */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none digital-grid" />
+      {/* Luxury Background Layer */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5 animate-gradient" />
+      </div>
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-aiCyan/5 to-transparent h-20 w-full animate-scanline opacity-50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent h-20 w-full animate-pulse opacity-30" />
       </div>
 
       <AnimatePresence mode="wait">
@@ -88,19 +90,19 @@ const AILoader = ({ onComplete }) => {
             exit={{ opacity: 0, y: -20 }}
             className="relative z-10 flex flex-col items-center gap-12"
           >
-            {/* Stark Industries Authorization Gate */}
+            {/* Luxury Authorization Gate */}
             <div className="relative group transform-gpu transition-transform duration-500 hover:scale-105">
-              <div className="absolute -inset-1 bg-gradient-to-r from-aiCyan to-aiBlue rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-              <div className="relative w-80 h-48 cyber-glass rounded-xl flex flex-col items-center justify-center border border-white/10 overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-aiCyan to-transparent animate-pulse" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-accent to-accentLight rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+              <div className="relative w-96 h-56 glass-card rounded-2xl flex flex-col items-center justify-center border border-accent/20 overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent animate-pulse" />
                 
-                <div className="flex flex-col items-center gap-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-aiCyan to-aiBlue flex items-center justify-center">
-                    <span className="text-white font-black text-xl">●</span>
+                <div className="flex flex-col items-center gap-6">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-accent to-accentDark flex items-center justify-center animate-glow">
+                    <span className="text-white font-black text-2xl">◈</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-white font-bold tracking-[0.2em] text-lg">INITIALIZING</span>
-                    <span className="text-[10px] text-aiCyan/70 tracking-widest mt-1 font-sci">SYSTEM v1.0</span>
+                    <span className="text-textPrimary font-display text-2xl tracking-wide">SUMIT JAIN</span>
+                    <span className="text-xs text-accent/70 tracking-widest mt-2 font-body uppercase">Portfolio v2.0</span>
                   </div>
                 </div>
               </div>
@@ -108,19 +110,19 @@ const AILoader = ({ onComplete }) => {
               <motion.div 
                 animate={{ top: ['10%', '90%', '10%'] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                className="absolute left-0 w-full h-0.5 bg-aiCyan shadow-[0_0_10px_#00d4ff] z-20"
+                className="absolute left-0 w-full h-0.5 bg-accent shadow-[0_0_15px_rgba(139,92,246,0.6)] z-20"
               />
             </div>
 
-            <div className="flex flex-col items-center gap-4">
-              <div className="text-white/40 text-[10px] tracking-[0.3em] animate-pulse font-sci">A.I. AUTHORIZATION PENDING...</div>
+            <div className="flex flex-col items-center gap-6">
+              <div className="text-textMuted text-xs tracking-[0.3em] animate-pulse font-body">Premium Experience Loading...</div>
               <button 
                 onClick={handleStart}
-                className="group relative px-10 py-4 bg-transparent border border-aiCyan text-aiCyan font-bold tracking-[0.18em] overflow-hidden transition-all hover:bg-aiCyan hover:text-black font-sci"
+                className="group relative px-12 py-5 bg-transparent border border-accent text-accent font-display text-lg tracking-wide overflow-hidden transition-all hover:bg-accent hover:text-primary font-body"
               >
-                <div className="absolute inset-0 bg-aiCyan opacity-0 group-hover:opacity-10 transition-opacity" />
-                <span className="relative z-10">INITIALIZE A.I. CORE</span>
-                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-aiCyan" />
+                <div className="absolute inset-0 bg-accent opacity-0 group-hover:opacity-10 transition-opacity" />
+                <span className="relative z-10">ENTER PORTFOLIO</span>
+                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-accent to-accentLight" />
               </button>
             </div>
           </motion.div>
@@ -131,84 +133,84 @@ const AILoader = ({ onComplete }) => {
             animate={{ opacity: 1 }}
             className="w-full max-w-2xl px-8 flex flex-col items-center gap-12 font-sci"
           >
-            {/* System Log Background */}
-            <div className="fixed inset-0 pointer-events-none opacity-[0.03] select-none overflow-hidden whitespace-nowrap text-[8px] leading-tight">
+            {/* Luxury Loading Interface */}
+            <div className="fixed inset-0 pointer-events-none opacity-[0.02] select-none overflow-hidden whitespace-nowrap text-[8px] leading-tight">
               {Array.from({ length: 40 }).map((_, i) => (
-                <div key={i} className="animate-pulse">{techLogs.map(l => l.replace(/SQUID/g, 'CORE')).join('  ')}</div>
+                <div key={i} className="animate-pulse">{luxuryLogs.join('  ')}</div>
               ))}
             </div>
 
             <div className="flex flex-col items-center w-full">
-              <div className="relative mb-16">
-                {/* Triple Ring HUD */}
+              <div className="relative mb-20">
+                {/* Luxury Triple Ring */}
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                  className="w-56 h-56 rounded-full border-2 border-dashed border-aiCyan opacity-20 relative flex items-center justify-center"
+                  className="w-64 h-64 rounded-full border-2 border-dashed border-accent/30 opacity-40 relative flex items-center justify-center"
                 />
                 
                 <motion.div 
                   animate={{ rotate: -360 }}
                   transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-4 rounded-full border-r-2 border-b-2 border-aiBlue opacity-40"
+                  className="absolute inset-6 rounded-full border-r-2 border-b-2 border-accentLight/50"
                 />
 
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-8 rounded-full border-t-2 border-l-2 border-aiCyan shadow-[0_0_20px_rgba(0,212,255,0.4)]"
+                  className="absolute inset-12 rounded-full border-t-2 border-l-2 border-accent shadow-glow-accent"
                 />
 
-                {/* Radar Pulse */}
+                {/* Cinematic Pulse */}
                 <motion.div 
-                  animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                  animate={{ scale: [1, 1.5], opacity: [0.6, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="absolute inset-0 rounded-full bg-aiCyan opacity-10"
+                  className="absolute inset-0 rounded-full bg-accent/20"
                 />
 
                 <div className="absolute inset-0 flex items-center justify-center flex-col">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-aiCyan to-aiBlue flex items-center justify-center animate-pulse">
-                    <span className="text-white font-black">●</span>
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent to-accentDark flex items-center justify-center animate-cinematic-pulse">
+                    <span className="text-primary font-black text-2xl">◈</span>
                   </div>
-                  <div className="text-4xl font-bold text-white mt-4">
+                  <div className="text-5xl font-display text-textPrimary mt-6">
                     {Math.floor(progress)}%
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-8 w-full max-w-md">
+              <div className="space-y-10 w-full max-w-2xl">
                 <div className="relative">
-                  <div className="h-1.5 w-full bg-slate-900 overflow-hidden relative rounded-full">
+                  <div className="h-2 w-full bg-secondary overflow-hidden relative rounded-full">
                     <motion.div 
-                      className="h-full bg-gradient-to-r from-aiCyan via-aiBlue to-aiCyan"
+                      className="h-full bg-gradient-to-r from-accent via-accentLight to-accent animate-gradient"
                       style={{ width: `${progress}%` }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-scan" style={{ animationDuration: '0.8s' }} />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/30 to-transparent animate-shimmer" style={{ animationDuration: '1.2s' }} />
                   </div>
                   <motion.div 
-                    className="absolute top-0 h-1.5 bg-aiCyan blur-sm"
+                    className="absolute top-0 h-2 bg-accent/60 blur-md"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
 
-                <div className="flex justify-between items-start h-32">
-                  <div className="flex flex-col gap-2 w-2/3">
-                    <div className="text-xs text-aiCyan font-bold tracking-[0.18em] uppercase font-sci">{status}</div>
-                    <div className="flex gap-2">
-                      <div className="w-1.5 h-1.5 bg-aiGold animate-pulse shadow-[0_0_5px_#ffd700]" />
-                      <div className="text-[10px] text-white/40 tracking-widest uppercase font-sci">ENCRYPTING_CORE_NET...</div>
+                <div className="flex justify-between items-start h-40">
+                  <div className="flex flex-col gap-4 w-2/3">
+                    <div className="text-sm text-accent font-display tracking-wide uppercase font-body">{status}</div>
+                    <div className="flex gap-3 items-center">
+                      <div className="w-2 h-2 bg-accent animate-cinematic-pulse shadow-glow-sm" />
+                      <div className="text-xs text-textSecondary tracking-widest uppercase font-body">Loading Premium Experience...</div>
                     </div>
                   </div>
                   
-                  <div className="flex flex-col items-end gap-1 w-1/3 text-right overflow-hidden">
+                  <div className="flex flex-col items-end gap-2 w-1/3 text-right overflow-hidden">
                     {logs.map((log, i) => (
                       <motion.div 
                         initial={{ x: 10, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         key={i} 
-                        className="text-[7px] text-white/30 truncate w-full font-mono uppercase font-sci"
+                        className="text-[8px] text-textMuted truncate w-full font-mono uppercase font-body"
                       >
-                        {`[AI_LOG_${i+502}] ${log.replace(/NODE/g, 'CORE')}`}
+                        {`[SYSTEM_${i+502}] ${log}`}
                       </motion.div>
                     ))}
                   </div>

@@ -44,14 +44,14 @@ function AppContent() {
   };
 
   return (
-    <div className="relative min-h-screen text-white w-full overflow-hidden bg-deepSpace">
-      <AnimatePresence>
+    <div className="relative min-h-screen text-textPrimary w-full overflow-hidden bg-primary">
+      <AnimatePresence mode="wait">
         {loading && <AILoader onComplete={handleLoadingComplete} />}
       </AnimatePresence>
 
       <CustomCursor />
       
-      {/* Animated Modern Background */}
+      {/* Luxury Animated Background */}
       <AnimatedBackground />
       
       {/* Content layer */}
@@ -59,57 +59,126 @@ function AppContent() {
         <Navbar onOpenContact={() => setIsContactOpen(true)} />
         <VisitorCounter />
         <Routes>
-          <Route path="/" element={<Home onOpenContact={() => setIsContactOpen(true)} />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <Home onOpenContact={() => setIsContactOpen(true)} />
+            </motion.div>
+          } />
+          <Route path="/login" element={
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <Login />
+            </motion.div>
+          } />
           <Route 
             path="/dashboard" 
             element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              </motion.div>
             } 
           />
           <Route 
             path="/dashboard/projects" 
             element={
-              <ProtectedRoute>
-                <ManageProjects />
-              </ProtectedRoute>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <ProtectedRoute>
+                  <ManageProjects />
+                </ProtectedRoute>
+              </motion.div>
             } 
           />
           <Route 
             path="/dashboard/files" 
             element={
-              <ProtectedRoute>
-                <ManageFiles />
-              </ProtectedRoute>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <ProtectedRoute>
+                  <ManageFiles />
+                </ProtectedRoute>
+              </motion.div>
             } 
           />
           <Route 
             path="/dashboard/profile" 
             element={
-              <ProtectedRoute>
-                <ManageProfile />
-              </ProtectedRoute>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <ProtectedRoute>
+                  <ManageProfile />
+                </ProtectedRoute>
+              </motion.div>
             } 
           />
           <Route 
             path="/dashboard/views" 
             element={
-              <ProtectedRoute>
-                <ManageViews />
-              </ProtectedRoute>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <ProtectedRoute>
+                  <ManageViews />
+                </ProtectedRoute>
+              </motion.div>
             } 
           />
           <Route 
             path="/admin/analytics" 
             element={
-              <ProtectedRoute>
-                <AdminAnalytics />
-              </ProtectedRoute>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <ProtectedRoute>
+                  <AdminAnalytics />
+                </ProtectedRoute>
+              </motion.div>
             } 
           />
-          <Route path="*" element={<Home onOpenContact={() => setIsContactOpen(true)} />} />
+          <Route path="*" element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <Home onOpenContact={() => setIsContactOpen(true)} />
+            </motion.div>
+          } />
         </Routes>
         
         <ContactModal 

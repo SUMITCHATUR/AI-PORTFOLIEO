@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, Trash2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const formatRelativeTime = (timestamp) => {
   if (!timestamp?.toDate) return 'Just now';
@@ -16,21 +17,41 @@ const formatRelativeTime = (timestamp) => {
 
 const PostCard = ({ post, canDelete, onDelete }) => {
   return (
-    <article className="group relative w-full overflow-hidden rounded-2xl border border-white/10 bg-[#061226]/90 p-4 shadow-[0_0_18px_rgba(0,0,0,0.22)] transition-transform duration-300 hover:-translate-y-0.5 hover:border-aiCyan/30 hover:shadow-[0_0_25px_rgba(0,212,255,0.18)] flex flex-col h-full">
-      <div className="mb-3">
-        <p className="text-sm font-bold uppercase tracking-[0.24em] text-aiCyan">Sumit Jain</p>
-        <p className="text-xs text-slate-500 mt-1">{formatRelativeTime(post.createdAt)}</p>
-      </div>
-      <div className="mt-4 flex-1">
-        <p className="text-sm leading-6 text-slate-200 whitespace-pre-wrap break-words">{post.caption?.replace(/\\n/g, '\n')}</p>
-      </div>
-
-      {post.imageUrl && (
-        <div className="mt-3 overflow-hidden rounded-2xl border border-white/10 bg-[#020617]/80">
-          <img src={post.imageUrl} alt="post" className="w-full h-auto max-h-96 object-contain" />
+    <motion.article 
+      className="premium-card group relative w-full overflow-hidden rounded-2xl p-6 flex flex-col h-full cinematic-light"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+      whileHover={{ y: -8, scale: 1.02 }}
+    >
+      {/* Premium border glow effect */}
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent/10 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      <div className="relative z-10">
+        <div className="mb-4">
+          <p className="text-xs font-bold uppercase tracking-wider text-accent font-display">Sumit Jain</p>
+          <p className="text-xs text-textSecondary mt-1 font-body">{formatRelativeTime(post.createdAt)}</p>
         </div>
-      )}
-    </article>
+        
+        <div className="mt-6 flex-1">
+          <p className="text-sm leading-7 text-textPrimary font-body whitespace-pre-wrap break-words">{post.caption?.replace(/\\n/g, '\n')}</p>
+        </div>
+
+        {post.imageUrl && (
+          <div className="mt-6 overflow-hidden rounded-xl border border-cardBorder bg-secondary/50">
+            <div className="relative group/image">
+              <img 
+                src={post.imageUrl} 
+                alt="post" 
+                className="w-full h-auto max-h-80 object-contain transition-transform duration-700 group-hover/image:scale-105" 
+              />
+              {/* Subtle overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-accent/10 to-transparent opacity-0 group-hover/image:opacity-100 transition-opacity duration-500" />
+            </div>
+          </div>
+        )}
+      </div>
+    </motion.article>
   );
 };
 
