@@ -31,17 +31,14 @@ const Achievements = () => {
   if (achievements.length === 0) return null;
 
   return (
-    <section id="achievements" className="py-20 relative z-10 container mx-auto px-6">
-      <div className="flex flex-col items-center">
-        <h2 className="text-3xl font-black text-white mb-10 text-center border-b border-white/5 pb-4 inline-block uppercase tracking-[0.2em] cyber-text-glow">SYSTEM_MILESTONES</h2>
-      </div>
-      <div className="max-w-3xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="border-l-2 border-cyberCyan/30 pl-6 ml-4 space-y-10 py-4"
-        >
+    <section id="achievements" className="py-20 px-6">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold mb-12 text-center">
+          Achievements
+          <div className="h-1 bg-white w-20 mx-auto mt-4"></div>
+        </h2>
+
+        <div className="space-y-8">
           {achievements.map((ach, i) => (
             <motion.a 
               key={ach.id}
@@ -52,15 +49,21 @@ const Achievements = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="relative block group"
+              className="block bg-gray-900 rounded-lg p-6 border border-gray-800 hover:border-gray-600 transition-colors"
             >
-              <span className="absolute -left-[35px] top-1 h-6 w-6 rounded-sm bg-[#020617] border-2 border-cyberCyan group-hover:scale-125 transition-transform group-hover:bg-cyberCyan shadow-lg shadow-cyberCyan/20"></span>
-              <h3 className="text-xl font-bold text-white group-hover:text-cyberCyan transition-colors uppercase tracking-tight">{(ach.originalName || "Achievement").split('.')[0]}</h3>
-              <p className="text-slate-400 mt-2 text-sm leading-relaxed font-mono tracking-tighter">OFFICIAL_RECORD: Verification of system clearance and project milestone achieved.</p>
-              <span className="text-[10px] text-cyberCyan font-black mt-3 inline-block opacity-60 group-hover:opacity-100 transition-opacity tracking-widest uppercase">View Documentation &rarr;</span>
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 rounded-sm bg-gray-800 flex items-center justify-center text-white">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 0 00.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+                </div>
+                <div className="flex-grow">
+                  <h3 className="text-lg font-bold text-white mb-2">{(ach.originalName || "Achievement").split('.')[0]}</h3>
+                  <p className="text-gray-400 text-sm">Official record of system clearance and milestone achieved.</p>
+                  <span className="text-xs text-white mt-3 uppercase">View Documentation →</span>
+                </div>
+              </div>
             </motion.a>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
