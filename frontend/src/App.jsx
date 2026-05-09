@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import ArchitectHome from './pages/ArchitectHome';
+import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import AdminAnalytics from './pages/AdminAnalytics';
@@ -44,14 +44,23 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="relative min-h-screen text-white w-full overflow-hidden bg-deepSpace">
       <AnimatePresence>
         {loading && <AILoader onComplete={handleLoadingComplete} />}
       </AnimatePresence>
 
-      <Routes>
-        <Route path="/" element={<ArchitectHome />} />
-        <Route path="/login" element={<Login />} />
+      <CustomCursor />
+      
+      {/* Animated Modern Background */}
+      <AnimatedBackground />
+      
+      {/* Content layer */}
+      <div className="relative z-10 w-full h-full">
+        <Navbar onOpenContact={() => setIsContactOpen(true)} />
+        <VisitorCounter />
+        <Routes>
+          <Route path="/" element={<Home onOpenContact={() => setIsContactOpen(true)} />} />
+          <Route path="/login" element={<Login />} />
         <Route 
           path="/dashboard" 
           element={
@@ -100,8 +109,14 @@ function AppContent() {
             </ProtectedRoute>
           } 
           />
-        <Route path="*" element={<ArchitectHome />} />
-      </Routes>
+        <Route path="*" element={<Home onOpenContact={() => setIsContactOpen(true)} />} />
+        </Routes>
+        
+        <ContactModal 
+          isOpen={isContactOpen} 
+          onClose={() => setIsContactOpen(false)} 
+        />
+      </div>
     </div>
   );
 }
