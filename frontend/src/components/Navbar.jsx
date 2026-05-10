@@ -118,18 +118,7 @@ const Navbar = ({ onOpenContact }) => {
 
           ))}
 
-          <button 
-
-            onClick={onOpenContact}
-
-            className="px-4 py-2 border border-white text-sm hover:bg-white hover:text-black transition-all"
-
-          >
-
-            RESUME
-
-          </button>
-
+          
         </div>
 
 
