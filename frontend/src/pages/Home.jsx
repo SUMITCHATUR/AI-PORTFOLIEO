@@ -93,16 +93,7 @@ const Home = ({ onOpenContact }) => {
                 Get in Touch
               </motion.button>
 
-              <motion.a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ y: -4 }}
-                className="px-8 py-3 font-semibold text-white border border-gray-600 rounded-lg hover:border-gray-400 transition-all"
-              >
-                Resume
-              </motion.a>
-            </motion.div>
+                          </motion.div>
           </div>
           <div className="flex justify-center lg:justify-end">
             <motion.div
