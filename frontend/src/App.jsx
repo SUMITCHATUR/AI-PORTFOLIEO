@@ -15,7 +15,6 @@ import ImageUpload from './components/ImageUpload';
 import VisitorCounter from './components/VisitorCounter';
 import { AuthProvider } from './context/AuthContext';
 import { useAnalytics } from './hooks/useAnalytics';
-import AILoader from './components/AILoader';
 import CustomCursor from './components/CustomCursor';
 import AnimatedBackground from './components/AnimatedBackground';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -23,7 +22,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 function AppContent() {
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [loading, setLoading] = useState(!sessionStorage.getItem('loader-shown'));
   const [lowMotion, setLowMotion] = useState(localStorage.getItem('low-motion') === 'true');
   const { incrementViews } = useAnalytics();
 
@@ -38,17 +36,9 @@ function AppContent() {
     localStorage.setItem('low-motion', newVal.toString());
   };
 
-  const handleLoadingComplete = () => {
-    setLoading(false);
-    sessionStorage.setItem('loader-shown', 'true');
-  };
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <AnimatePresence>
-        {loading && <AILoader onComplete={handleLoadingComplete} />}
-      </AnimatePresence>
-
       <Navbar onOpenContact={() => setIsContactOpen(true)} />
       <VisitorCounter />
       <Routes>
