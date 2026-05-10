@@ -29,11 +29,11 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="projects" className="py-20 px-6">
+    <section id="projects" className="py-20 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold mb-12 text-center">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center">
           Projects
-          <div className="h-1 bg-white w-20 mx-auto mt-4"></div>
+          <div className="h-1 bg-white w-16 sm:w-20 mx-auto mt-4"></div>
         </h2>
 
         {loading ? (
@@ -41,12 +41,12 @@ const Projects = () => {
             <Loader2 className="animate-spin text-white" size={40} />
           </div>
         ) : projects.length === 0 ? (
-          <div className="bg-gray-900 rounded-lg p-8 text-center text-gray-400 border border-gray-800">
-            <p className="text-lg">No projects available yet.</p>
+          <div className="bg-gray-900 rounded-lg p-6 sm:p-8 text-center text-gray-400 border border-gray-800">
+            <p className="text-base sm:text-lg">No projects available yet.</p>
             <p className="text-sm mt-2">Check back soon for upcoming projects.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {projects.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -58,9 +58,9 @@ const Projects = () => {
                 className="group cursor-pointer h-full"
                 onClick={() => setSelectedProject(project)}
               >
-                <div className="bg-gray-900 rounded-lg p-6 border border-gray-800 hover:border-gray-600 transition-colors h-full flex flex-col">
+                <div className="bg-gray-900 rounded-lg p-4 sm:p-6 border border-gray-800 hover:border-gray-600 transition-colors h-full flex flex-col">
                   {/* Project Image */}
-                  <div className="h-48 overflow-hidden rounded-lg mb-4">
+                  <div className="h-32 sm:h-48 overflow-hidden rounded-lg mb-4">
                     <img 
                       src={project.imageUrl || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop'} 
                       alt={project.title} 
@@ -70,11 +70,11 @@ const Projects = () => {
                   
                   {/* Content */}
                   <div className="flex-grow flex flex-col">
-                    <h3 className="text-lg font-bold text-white mb-3">
+                    <h3 className="text-base sm:text-lg font-bold text-white mb-3">
                       {project.title}
                     </h3>
                     
-                    <p className="text-gray-400 text-sm mb-4 flex-grow">
+                    <p className="text-gray-400 text-xs sm:text-sm mb-4 flex-grow">
                       {project.description}
                     </p>
                     
@@ -102,7 +102,7 @@ const Projects = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedProject(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm cursor-pointer"
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-sm cursor-pointer"
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -119,7 +119,7 @@ const Projects = () => {
               </button>
               
               {/* Project Header Image */}
-              <div className="h-72 w-full relative overflow-hidden">
+              <div className="h-48 sm:h-72 w-full relative overflow-hidden">
                 <img 
                   src={selectedProject.imageUrl || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1000&h=600&fit=crop'} 
                   alt={selectedProject.title} 
@@ -129,19 +129,19 @@ const Projects = () => {
               </div>
 
               {/* Project Details */}
-              <div className="p-8">
-                <h3 className="text-3xl font-bold text-white mb-6">{selectedProject.title}</h3>
+              <div className="p-4 sm:p-8">
+                <h3 className="text-xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">{selectedProject.title}</h3>
                 
                 {/* Action Buttons */}
-                <div className="flex gap-4 mb-8 flex-wrap">
+                <div className="flex gap-3 sm:gap-4 mb-6 sm:mb-8 flex-wrap">
                   {selectedProject.githubLink && (
                     <a 
                       href={selectedProject.githubLink} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                      className="inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm sm:text-base"
                     >
-                      <Github size={18} /> GitHub
+                      <Github size={16} sm={18} /> GitHub
                     </a>
                   )}
                   {selectedProject.liveLink && (
@@ -149,23 +149,23 @@ const Projects = () => {
                       href={selectedProject.liveLink} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
+                      className="inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors text-sm sm:text-base"
                     >
-                      <ExternalLink size={18} /> Live Demo
+                      <ExternalLink size={16} sm={18} /> Live Demo
                     </a>
                   )}
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-300 leading-relaxed mb-8 whitespace-pre-wrap">
+                <p className="text-gray-300 leading-relaxed mb-6 sm:mb-8 whitespace-pre-wrap text-sm sm:text-base">
                   {selectedProject.description}
                 </p>
 
                 {/* Technologies */}
                 {selectedProject.tags && selectedProject.tags.length > 0 && (
                   <div>
-                    <h4 className="text-white font-semibold mb-4">Technologies Used</h4>
-                    <div className="flex flex-wrap gap-3">
+                    <h4 className="text-white font-semibold mb-3 sm:mb-4 text-base sm:text-lg">Technologies Used</h4>
+                    <div className="flex flex-wrap gap-2 sm:gap-3">
                       {selectedProject.tags.map(tag => (
                         <span key={tag} className="px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded-lg">
                           {tag}
