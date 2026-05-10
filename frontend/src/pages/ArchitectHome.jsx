@@ -13,6 +13,9 @@ const ArchitectHome = () => {
             <a href="#expertise" className="text-sm hover:text-gray-400 transition-colors">Expertise</a>
             <a href="#about" className="text-sm hover:text-gray-400 transition-colors">About</a>
             <a href="#contact" className="text-sm hover:text-gray-400 transition-colors">Contact</a>
+            <button className="px-4 py-2 border border-white text-sm hover:bg-white hover:text-black transition-all">
+              RESUME
+            </button>
           </nav>
         </div>
       </header>
