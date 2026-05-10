@@ -10,6 +10,13 @@ const Achievements = () => {
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
+        // Check if Firebase is available
+        if (!db) {
+          console.log('Firebase not available, skipping achievements fetch');
+          setLoading(false);
+          return;
+        }
+        
         const q = query(collection(db, 'files'), where('category', '==', 'achievement'));
         const querySnapshot = await getDocs(q);
         const achData = querySnapshot.docs.map(doc => ({
@@ -19,6 +26,8 @@ const Achievements = () => {
         setAchievements(achData);
       } catch (err) {
         console.error('Failed to fetch achievements:', err);
+        // Set empty array on error to prevent infinite loading
+        setAchievements([]);
       } finally {
         setLoading(false);
       }

@@ -12,6 +12,13 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        // Check if Firebase is available
+        if (!db) {
+          console.log('Firebase not available, skipping projects fetch');
+          setLoading(false);
+          return;
+        }
+        
         const q = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
         const projectsData = querySnapshot.docs.map(doc => ({
@@ -21,6 +28,8 @@ const Projects = () => {
         setProjects(projectsData);
       } catch (err) {
         console.error('Error fetching projects:', err);
+        // Set empty array on error to prevent infinite loading
+        setProjects([]);
       } finally {
         setLoading(false);
       }
