@@ -29,57 +29,37 @@ export const useAnalytics = () => {
   const incrementViews = async () => {
     let remoteCount = null;
     try {
+      // Check if Firebase is available
+      if (!db) {
+        console.log('Firebase not available, skipping views increment');
+        return;
+      }
+
       const analyticsRef = doc(db, 'analytics', 'summary');
       const now = serverTimestamp();
-      
-      // Create unique device identifier based on browser fingerprint
-      const deviceKey = 'portfolio-device-visited';
-      let deviceFingerprint = localStorage.getItem(deviceKey);
-      
-      if (!deviceFingerprint) {
-        // Generate unique fingerprint for this device
-        deviceFingerprint = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      const sessionKey = 'portfolio-analytics-session-id';
+      let sessionId = sessionStorage.getItem(sessionKey);
+      if (!sessionId) {
+        sessionId = (typeof crypto !== 'undefined' && crypto.randomUUID)
           ? crypto.randomUUID()
-          : `${Date.now()}-${Math.random().toString(36).slice(2)}-${navigator.userAgent.slice(0, 50)}`;
-        localStorage.setItem(deviceKey, deviceFingerprint);
+          : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        sessionStorage.setItem(sessionKey, sessionId);
       }
-      
-      // Check if this device has already visited today
-      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
-      const dailyVisitKey = `portfolio-daily-visit-${deviceFingerprint}-${today}`;
-      const hasVisitedToday = localStorage.getItem(dailyVisitKey);
-      
-      if (!hasVisitedToday) {
-        // First visit today from this device - increment views
-        await setDoc(analyticsRef, {
-          totalViews: increment(1),
-          totalVisitors: increment(1),
-          lastUpdated: now
-        }, { merge: true });
-        
-        // Mark this device as visited today
-        localStorage.setItem(dailyVisitKey, 'true');
-        
-        // Log the unique visit
-        await addDoc(collection(db, 'pageViews'), {
-          deviceFingerprint,
-          path: window.location.pathname || '/',
-          userAgent: navigator.userAgent || '',
-          isNewVisitor: true,
-          visitDate: today,
-          createdAt: now
-        });
-      } else {
-        // Already visited today - don't increment views, just log the activity
-        await addDoc(collection(db, 'pageViews'), {
-          deviceFingerprint,
-          path: window.location.pathname || '/',
-          userAgent: navigator.userAgent || '',
-          isNewVisitor: false,
-          visitDate: today,
-          createdAt: now
-        });
-      }
+
+      // Atomic upsert so first write and all future writes work reliably.
+      await setDoc(analyticsRef, {
+        totalViews: increment(1),
+        totalVisitors: increment(0),
+        lastUpdated: now
+      }, { merge: true });
+
+      // Keep event-level logs for charting and time-based analytics.
+      await addDoc(collection(db, 'pageViews'), {
+        sessionId,
+        path: window.location.pathname || '/',
+        userAgent: navigator.userAgent || '',
+        createdAt: now
+      });
     } catch (err) {
       console.error('Error incrementing views:', err);
     }
